@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JuniorTeamSelector", "JuniorTeamSelector\JuniorTeamSelector.csproj", "{8069F8FF-CD8B-4EF3-BE1C-98D9CE8C0E61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{A5FE0BAA-D31B-4937-BCA0-31FE0148F508}"
+	ProjectSection(SolutionItems) = preProject
+		templates\roadmap.template.html = templates\roadmap.template.html
+		templates\team_descritption.template.html = templates\team_descritption.template.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "js", "js", "{E3C9BA0A-5748-4283-A491-E84F09AF39D8}"
+	ProjectSection(SolutionItems) = preProject
+		templates\js\bootstrap.js = templates\js\bootstrap.js
+		templates\js\bootstrap.min.js = templates\js\bootstrap.min.js
+		templates\js\jquery-2.1.1.js = templates\js\jquery-2.1.1.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{C85F4B8F-09AE-48F4-BF08-5833E666FCF6}"
+	ProjectSection(SolutionItems) = preProject
+		templates\css\bootstrap-theme.css = templates\css\bootstrap-theme.css
+		templates\css\bootstrap-theme.css.map = templates\css\bootstrap-theme.css.map
+		templates\css\bootstrap-theme.min.css = templates\css\bootstrap-theme.min.css
+		templates\css\bootstrap.css = templates\css\bootstrap.css
+		templates\css\bootstrap.css.map = templates\css\bootstrap.css.map
+		templates\css\bootstrap.min.css = templates\css\bootstrap.min.css
+		templates\css\site.css = templates\css\site.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{14A9E02A-D7EF-41C7-89B2-B65424D568A6}"
+	ProjectSection(SolutionItems) = preProject
+		templates\fonts\glyphicons-halflings-regular.eot = templates\fonts\glyphicons-halflings-regular.eot
+		templates\fonts\glyphicons-halflings-regular.svg = templates\fonts\glyphicons-halflings-regular.svg
+		templates\fonts\glyphicons-halflings-regular.ttf = templates\fonts\glyphicons-halflings-regular.ttf
+		templates\fonts\glyphicons-halflings-regular.woff = templates\fonts\glyphicons-halflings-regular.woff
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JuniorTeamSelector.Tests", "JuniorTeamSelector.Tests\JuniorTeamSelector.Tests.csproj", "{BC09B2C5-29F2-4373-895B-4FE03B7BE45D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unidecodesharpfork", "unidecodesharpfork", "{8C73BFD8-0A98-4A84-8BE0-736A05DBD4DB}"
+	ProjectSection(SolutionItems) = preProject
+		unidecodesharpfork\UnidecodeSharpFork.dll = unidecodesharpfork\UnidecodeSharpFork.dll
+		unidecodesharpfork\UnidecodeSharpFork.pdb = unidecodesharpfork\UnidecodeSharpFork.pdb
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8069F8FF-CD8B-4EF3-BE1C-98D9CE8C0E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8069F8FF-CD8B-4EF3-BE1C-98D9CE8C0E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8069F8FF-CD8B-4EF3-BE1C-98D9CE8C0E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8069F8FF-CD8B-4EF3-BE1C-98D9CE8C0E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC09B2C5-29F2-4373-895B-4FE03B7BE45D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC09B2C5-29F2-4373-895B-4FE03B7BE45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC09B2C5-29F2-4373-895B-4FE03B7BE45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC09B2C5-29F2-4373-895B-4FE03B7BE45D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3C9BA0A-5748-4283-A491-E84F09AF39D8} = {A5FE0BAA-D31B-4937-BCA0-31FE0148F508}
+		{C85F4B8F-09AE-48F4-BF08-5833E666FCF6} = {A5FE0BAA-D31B-4937-BCA0-31FE0148F508}
+		{14A9E02A-D7EF-41C7-89B2-B65424D568A6} = {A5FE0BAA-D31B-4937-BCA0-31FE0148F508}
+	EndGlobalSection
+EndGlobal

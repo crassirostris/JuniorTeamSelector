@@ -1,0 +1,43 @@
+#main-container {
+    text-align: center;
+    margin-top: 10px;
+    width: 1500px;
+    height: 950px;
+
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#roadmap-title {
+    font-size: 2em;
+    margin-bottom: -15px;
+}
+
+.contestant-name {
+    font-size: 3em;
+}
+
+td {
+    height: 170px;
+}
+
+.round-title {
+    font-size: 2em;
+}
+
+.team-name {
+    font-size: 5em;
+    font-weight: bold;
+}
+
+.team-location {
+    font-size: 2em;
+}
+
+.round-container {
+    width: 100%;
+}
+
+.rounds-container {
+    width: 100%;
+}
