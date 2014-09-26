@@ -21,15 +21,16 @@ namespace JuniorTeamSelector
 
             CleanDirectory();
 
-            var contestants = ReadContestantsNames(args);
-            var roundsGenerator = new RoundArrangementGenerator(contestants, TeamMembersCount);
-            var teamNameGenerator = new TeamNameGenerator(ReadTeamNames(args));
+            var contestants = ReadContestants(args);
+            var roundsGenerator = new RoundArrangementGenerator<Contestant>(contestants, TeamMembersCount);
+            var teamNameGenerator = new TeamCredentialsGenerator(ReadTeamsCredentials(args));
             var locationGenerator = new LocationGenerator(ReadAuditories(args));
 
             var roadMapRenderer = new RoadMapRenderer(RoadMapMainTemplateFileName, RoadMapRoundTemplateFileName, OutputDirectory);
             var teamDescriptionRenderer = new TeamDescriptionRenderer(TeamDescriptionMainTemplateFileName, TeamDescriptionContestantTemplateFileName, OutputDirectory);
 
             var teams = GenerateTeams(roundsGenerator, locationGenerator, teamNameGenerator).ToList();
+
             foreach (var contestant in contestants)
                 roadMapRenderer.Render(contestant, teams);
             foreach (var team in teams)
@@ -42,37 +43,37 @@ namespace JuniorTeamSelector
                 File.Delete(file.FullName);
         }
 
-        private static IEnumerable<Team> GenerateTeams(RoundArrangementGenerator roundArrangementGenerator, LocationGenerator locationGenerator,
-            TeamNameGenerator teamNameGenerator)
+        private static IEnumerable<Team> GenerateTeams(RoundArrangementGenerator<Contestant> roundArrangementGenerator, LocationGenerator locationGenerator,
+            TeamCredentialsGenerator teamCredentialsGenerator)
         {
             foreach (var round in roundArrangementGenerator.Generate(RoundsCount))
             {
                 locationGenerator.Reset();
                 foreach (var team in round.Arrangement.Select(members 
-                    => new Team(teamNameGenerator.GetNext(), members, locationGenerator.GetNext(), round.Number)))
+                    => new Team(teamCredentialsGenerator.GetNext(round.Number), members, locationGenerator.GetNext(), round.Number)))
                     yield return team;
             }
         }
 
-        private static string[] ReadTeamNames(string[] args)
+        private static TeamCredentials[] ReadTeamsCredentials(string[] args)
         {
-            return File.ReadAllLines(args[2]);
+            return File.ReadAllLines(args[2])
+                .Select(TeamCredentials.Parse)
+                .ToArray();
         }
 
         private static Auditory[] ReadAuditories(string[] args)
         {
             return File.ReadAllLines(args[1])
-                .Select(line =>
-                {
-                    var chunks = line.Split(new[] { ' ', '\t' });
-                    return new Auditory(chunks[0], int.Parse(chunks[1]));
-                })
+                .Select(Auditory.Parse)
                 .ToArray();
         }
 
-        private static string[] ReadContestantsNames(string[] args)
+        private static Contestant[] ReadContestants(string[] args)
         {
-            return File.ReadAllLines(args[0]);
+            return File.ReadAllLines(args[0])
+                .Select(Contestant.Parse)
+                .ToArray();
         }
 
         private static void CheckArguments(string[] args)

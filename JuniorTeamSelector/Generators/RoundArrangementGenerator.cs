@@ -3,22 +3,24 @@ using System.Linq;
 
 namespace JuniorTeamSelector
 {
-    public class RoundArrangementGenerator
+    //TODO: No contestant goes in non-complete team twice
+
+    public class RoundArrangementGenerator<TContestant>
     {
-        private readonly string[] contestants;
+        private readonly TContestant[] contestants;
         private readonly int teamMembersCount;
-        private readonly Dictionary<string, HashSet<string>> pastAdjacencies; 
+        private readonly Dictionary<TContestant, HashSet<TContestant>> pastAdjacencies; 
 
         private int roundNumber = 1;
 
-        public RoundArrangementGenerator(string[] contestants, int teamMembersCount)
+        public RoundArrangementGenerator(TContestant[] contestants, int teamMembersCount)
         {
             this.contestants = contestants;
             this.teamMembersCount = teamMembersCount;
-            this.pastAdjacencies = contestants.ToDictionary(contestant => contestant, contestant => new HashSet<string>());
+            this.pastAdjacencies = contestants.ToDictionary(contestant => contestant, contestant => new HashSet<TContestant>());
         }
 
-        public IEnumerable<Round> Generate(int roundsCount)
+        public IEnumerable<Round<TContestant>> Generate(int roundsCount)
         {
             while (roundsCount-- > 0)
             {
@@ -26,25 +28,25 @@ namespace JuniorTeamSelector
             }
         }
 
-        private Round GenerateNext()
+        private Round<TContestant> GenerateNext()
         {
-            return new Round(GenerateArrangement(), roundNumber++);
+            return new Round<TContestant>(GenerateArrangement(), roundNumber++);
         }
 
-        private List<List<string>> GenerateArrangement()
+        private List<List<TContestant>> GenerateArrangement()
         {
-            List<List<string>> result;
+            List<List<TContestant>> result;
             while (!TryGenerateArrangement(out result)) ;
             return result;
         }
 
-        private bool TryGenerateArrangement(out List<List<string>> result)
+        private bool TryGenerateArrangement(out List<List<TContestant>> result)
         {
             var currentContestants = RandomHelper.Shuffle(contestants);
-            result = new List<List<string>>();
+            result = new List<List<TContestant>>();
             while (currentContestants.Length > 0)
             {
-                List<string> suggestedTeam;
+                List<TContestant> suggestedTeam;
                 if (!TrySuggestTeam(currentContestants, out suggestedTeam))
                     return false;
                 result.Add(suggestedTeam);
@@ -57,9 +59,9 @@ namespace JuniorTeamSelector
             return true;
         }
 
-        private bool TrySuggestTeam(string[] currentContestants, out List<string> suggestedTeam)
+        private bool TrySuggestTeam(TContestant[] currentContestants, out List<TContestant> suggestedTeam)
         {
-            suggestedTeam = new List<string>();
+            suggestedTeam = new List<TContestant>();
             foreach (var contestant in currentContestants)
             {
                 if (suggestedTeam.Any(other => pastAdjacencies[other].Contains(contestant)))

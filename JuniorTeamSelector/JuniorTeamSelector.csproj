@@ -39,18 +39,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contestant.cs" />
     <Compile Include="DataStructures\Auditory.cs" />
     <Compile Include="DataStructures\Location.cs" />
     <Compile Include="Generators\LocationGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamCredentials.cs" />
     <Compile Include="Utilities\RandomHelper.cs" />
     <Compile Include="Renderers\RoadMapRenderer.cs" />
     <Compile Include="DataStructures\Round.cs" />
     <Compile Include="Generators\RoundArrangementGenerator.cs" />
     <Compile Include="DataStructures\Team.cs" />
     <Compile Include="Renderers\TeamDescriptionRenderer.cs" />
-    <Compile Include="Generators\TeamNameGenerator.cs" />
+    <Compile Include="Generators\TeamCredentialsGenerator.cs" />
     <Compile Include="Generators\TeamsGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

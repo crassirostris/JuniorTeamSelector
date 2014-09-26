@@ -21,13 +21,13 @@ namespace JuniorTeamSelector
         {
             var result = File.ReadAllText(mainTemplateFileName)
                 .Replace("%ROUND_NUMBER%", team.RoundNumber.ToString(CultureInfo.InvariantCulture))
-                .Replace("%TEAM_NAME%", team.Name)
+                .Replace("%TEAM_NAME%", team.Credentials.Name)
                 .Replace("%LOCATION_NAME%", team.Location.Name)
                 .Replace("%COMPUTER_NUMBER%", team.Location.ComputerNumber.ToString(CultureInfo.InvariantCulture));
             var contestantTemplate = File.ReadAllText(contestantTemplateFileName);
-            var contestants = team.Contestants.Aggregate(string.Empty, (current, t) => current + contestantTemplate.Replace("%CONTESTANT_NAME%", t));
+            var contestants = team.Contestants.Aggregate(string.Empty, (current, t) => current + contestantTemplate.Replace("%CONTESTANT_NAME%", t.Name));
             result = result.Replace("%CONTESTANTS%", contestants);
-            File.WriteAllText(Path.Combine(outputDirectory, string.Format("teamdescription.{0}.{1}.html", team.RoundNumber, team.Name)), result);
+            File.WriteAllText(Path.Combine(outputDirectory, string.Format("teamdescription.{0}.{1}.html", team.RoundNumber, team.Credentials.Name)), result);
         }
     }
 }

@@ -2,15 +2,15 @@ using System.Collections.Generic;
 
 namespace JuniorTeamSelector
 {
-    public class Round
+    public class Round<TContestant>
     {
-        public Round(List<List<string>> arrangement, int number)
+        public Round(List<List<TContestant>> arrangement, int number)
         {
             Arrangement = arrangement;
             Number = number;
         }
 
-        public List<List<string>> Arrangement { get; set; }
+        public List<List<TContestant>> Arrangement { get; set; }
 
         public int Number { get; set; }
     }

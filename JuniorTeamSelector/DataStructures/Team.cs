@@ -4,17 +4,17 @@ namespace JuniorTeamSelector
 {
     public class Team
     {
-        public Team(string name, List<string> contestants, Location location, int roundNumber)
+        public Team(TeamCredentials credentials, List<Contestant> contestants, Location location, int roundNumber)
         {
-            Name = name;
+            Credentials = credentials;
             Contestants = contestants;
             Location = location;
             RoundNumber = roundNumber;
         }
 
-        public string Name { get; set; }
+        public TeamCredentials Credentials { get; set; }
 
-        public List<string> Contestants { get; set; }
+        public List<Contestant> Contestants { get; set; }
 
         public Location Location { get; set; }
 
