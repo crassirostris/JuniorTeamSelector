@@ -2,9 +2,10 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Core.DataStructures;
 using UnidecodeSharpFork;
 
-namespace JuniorTeamSelector
+namespace JuniorTeamSelector.Renderers
 {
     public class RoadMapRenderer
     {

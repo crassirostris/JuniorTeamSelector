@@ -1,4 +1,6 @@
-﻿namespace JuniorTeamSelector
+﻿using Core.DataStructures;
+
+namespace JuniorTeamSelector.Generators
 {
     public class LocationGenerator
     {

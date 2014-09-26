@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.DataStructures;
+using JuniorTeamSelector.Generators;
 using NUnit.Framework;
 
 namespace JuniorTeamSelector.Tests

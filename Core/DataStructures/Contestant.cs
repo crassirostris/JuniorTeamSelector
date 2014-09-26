@@ -1,15 +1,24 @@
-﻿namespace JuniorTeamSelector
+﻿using ProtoBuf;
+
+namespace Core.DataStructures
 {
+    [ProtoContract]
     public class Contestant
     {
+        [ProtoMember(1, IsRequired = true)]
         public string Name { get; private set; }
 
+        [ProtoMember(2, IsRequired = true)]
         public string CasedName { get; private set; }
 
         public Contestant(string name, string casedName)
         {
             Name = name;
             CasedName = casedName;
+        }
+
+        public Contestant()
+        {
         }
 
         public static Contestant Parse(string line)

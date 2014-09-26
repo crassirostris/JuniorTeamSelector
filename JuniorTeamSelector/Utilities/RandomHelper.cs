@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JuniorTeamSelector
+namespace JuniorTeamSelector.Utilities
 {
     public static class RandomHelper
     {
