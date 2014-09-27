@@ -48,6 +48,8 @@ namespace JuniorTeamSelector.Tests
 
             var incompleteTeams = teams.Where(team => team.Contestants.Count != config.TeamMembersCount).ToList();
             CollectionAssert.AreEquivalent(incompleteTeams.SelectMany(t => t.Contestants), incompleteTeams.SelectMany(t => t.Contestants).Distinct());
+
+            Assert.True(teams.All(team => team.Contestants.Count >= (config.TeamMembersCount + 1) / 2));
         }
 
         [Test]

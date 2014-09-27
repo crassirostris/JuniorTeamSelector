@@ -54,14 +54,14 @@ namespace JuniorTeamSelector.Generators
                 result.Add(suggestedTeam);
                 currentContestants = RandomHelper.Shuffle(currentContestants.Where(e => !suggestedTeam.Contains(e))).ToArray();
             }
-            var incompleteTeamContestants = result.FirstOrDefault(team => team.Count != teamMembersCount);
-            if (incompleteTeamContestants != null)
-            {
-                if (incompleteTeamContestants.Any(contestantsInIncompleteTeams.Contains))
-                    return false;
-                foreach (var contestant in incompleteTeamContestants)
-                    contestantsInIncompleteTeams.Add(contestant);
-            }
+            var incompleteTeamContestants = result
+                .Where(team => team.Count != teamMembersCount)
+                .SelectMany(team => team)
+                .ToList();
+            if (incompleteTeamContestants.Any(contestantsInIncompleteTeams.Contains))
+                return false;
+            foreach (var contestant in incompleteTeamContestants)
+                contestantsInIncompleteTeams.Add(contestant);
 
             foreach (var members in result)
                 foreach (var member in members)
@@ -72,13 +72,19 @@ namespace JuniorTeamSelector.Generators
 
         private bool TrySuggestTeam(TContestant[] currentContestants, out List<TContestant> suggestedTeam)
         {
+            int suggestedTeamSize = currentContestants.Length < teamMembersCount
+                ? currentContestants.Length
+                : currentContestants.Length < 2 * teamMembersCount
+                    ? (currentContestants.Length + 1) / 2
+                    : teamMembersCount;
+
             suggestedTeam = new List<TContestant>();
             foreach (var contestant in currentContestants)
             {
                 if (suggestedTeam.Any(other => pastAdjacencies[other].Contains(contestant)))
                     continue;
                 suggestedTeam.Add(contestant);
-                if (suggestedTeam.Count == teamMembersCount || suggestedTeam.Count == currentContestants.Length)
+                if (suggestedTeam.Count == suggestedTeamSize)
                     return true;
             }
             return false;
