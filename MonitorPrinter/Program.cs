@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Core.DataStructures;
-using ProtoBuf;
+using Newtonsoft.Json;
 
 namespace MonitorPrinter
 {
@@ -13,9 +12,8 @@ namespace MonitorPrinter
         {
             var config = MonitorPrinterConfig.Instance;
 
-            DataRepository dataRepository;
-            using (var fileStream = File.Open(config.TeamsInfoFileName, FileMode.Open))
-                dataRepository = Serializer.Deserialize<DataRepository>(fileStream);
+            var dataRepository = JsonConvert
+                .DeserializeObject<DataRepository>(File.ReadAllText(config.TeamsInfoFileName));
 
             var teamsMapping = dataRepository.Teams
                 .ToDictionary(team => team.Credentials.Login.Substring(0, 6), team => team);
@@ -23,12 +21,16 @@ namespace MonitorPrinter
             var states = dataRepository.Teams
                 .SelectMany(team => team.Contestants)
                 .Distinct()
-                .ToDictionary(c => c, c => new ContestantState());
+                .ToDictionary(c => c, c => new ContestantState(c));
 
             var submits = ReadAllSubmits(config).OrderBy(record => record.Time).ToList();
             foreach (var submit in submits)
+            {
+                if (!teamsMapping.ContainsKey(submit.Id))
+                    continue;
                 foreach (var contestant in teamsMapping[submit.Id].Contestants)
                     states[contestant].Apply(submit);
+            }
 
             var rating = states.Values.OrderBy(e => e).ToList();
 

@@ -9,7 +9,6 @@ namespace MonitorPrinter
 {
     public class ContestantState : IComparable<ContestantState>
     {
-        private readonly HashSet<string> solvedProblems = new HashSet<string>(); 
         private readonly List<Submit> submits = new List<Submit>(); 
 
         public int SolvedTotal { get; private set; }
@@ -22,8 +21,9 @@ namespace MonitorPrinter
 
         public List<Problem> Problems { get; private set; }
 
-        public ContestantState()
+        public ContestantState(Contestant contestant)
         {
+            Contestant = contestant;
             var config = MonitorPrinterConfig.Instance;
             Problems = Enumerable.Range(0, config.ProblemsCount).Select(e => new Problem()).ToList();
         }
@@ -36,7 +36,7 @@ namespace MonitorPrinter
                 if (submit.Accepted)
                 {
                     problem.Solved = true;
-
+                    ++SolvedTotal;
                 }
                 else
                     ++problem.Failed;
@@ -56,6 +56,8 @@ namespace MonitorPrinter
         {
             var sb = new StringBuilder();
             sb.Append(Contestant.Name).Append('\t');
+            sb.Append(SolvedTotal.ToString()).Append('\t');
+            sb.Append(Penalty.ToString()).Append('\t');
             foreach (var problem in Problems)
             {
                 if (problem.Solved)

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Core.DataStructures;
 using JuniorTeamSelector.Generators;
@@ -69,6 +71,16 @@ namespace JuniorTeamSelector.Tests
                     => new Team(teamCredentialsGenerator.GetNext(round.Number), members, locationGenerator.GetNext(), round.Number)))
                     yield return team;
             }
+        }
+
+        [Test]
+        public void Test()
+        {
+            var config = JuniorTeamSelectorConfig.Instance;
+            DataRepository dataRepository;
+            using (var fileStream = File.Open(config.TeamsInfoFileName, FileMode.Open))
+                dataRepository = ProtoBuf.Serializer.Deserialize<DataRepository>(fileStream);
+            Console.WriteLine("Huj");
         }
     }
 }

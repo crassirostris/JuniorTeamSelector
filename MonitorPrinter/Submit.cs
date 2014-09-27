@@ -32,7 +32,7 @@ namespace MonitorPrinter
         public static Submit Parse(string line)
         {
             var m = parseRegex.Match(line);
-            return new Submit(m.Groups[0].Value, m.Groups[1].Value[0] - 'A', int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value), m.Groups[4].Value);
+            return new Submit(m.Groups[1].Value, m.Groups[2].Value[0] - 'A', int.Parse(m.Groups[3].Value), int.Parse(m.Groups[4].Value), m.Groups[5].Value);
         }
     }
 }

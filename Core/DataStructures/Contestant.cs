@@ -6,10 +6,10 @@ namespace Core.DataStructures
     public class Contestant
     {
         [ProtoMember(1, IsRequired = true)]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         [ProtoMember(2, IsRequired = true)]
-        public string CasedName { get; private set; }
+        public string CasedName { get; set; }
 
         public Contestant(string name, string casedName)
         {
