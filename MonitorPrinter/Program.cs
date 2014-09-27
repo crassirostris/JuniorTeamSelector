@@ -18,6 +18,9 @@ namespace MonitorPrinter
             var teamsMapping = dataRepository.Teams
                 .ToDictionary(team => team.Credentials.Login.Substring(0, 6), team => team);
 
+
+            var samplesCount = File.ReadLines(config.SampleCountFileName).Select(int.Parse).ToArray();
+
             var states = dataRepository.Teams
                 .SelectMany(team => team.Contestants)
                 .Distinct()
@@ -29,12 +32,17 @@ namespace MonitorPrinter
                 if (!teamsMapping.ContainsKey(submit.Id))
                     continue;
                 foreach (var contestant in teamsMapping[submit.Id].Contestants)
-                    states[contestant].Apply(submit);
+                    states[contestant].Apply(submit, samplesCount);
             }
 
             var rating = states.Values.OrderBy(e => e).ToList();
 
-            File.WriteAllLines(config.OutputFile, rating.Select(e => e.ToString()).ToArray());
+            var median = rating[rating.Count / 2];
+            var ratingTop = rating.Count(state => state.SolvedTotal >= median.SolvedTotal);
+
+            rating = rating.Take(ratingTop).Concat(rating.Skip(ratingTop).OrderBy(e => e.Contestant.Name)).ToList();
+
+            File.WriteAllLines(config.OutputFile, rating.Select(e => e.ToString(rating.Skip(ratingTop).Max(q => q.SolvedTotal))).ToArray());
         }
 
         private static IEnumerable<Submit> ReadAllSubmits(MonitorPrinterConfig config)

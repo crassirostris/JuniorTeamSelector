@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Core.DataStructures;
 using JuniorTeamSelector.Generators;
+using JuniorTeamSelector.Renderers;
 using Newtonsoft.Json;
 
 namespace JuniorTeamSelector
@@ -13,54 +14,7 @@ namespace JuniorTeamSelector
     {
         static void Main(string[] args)
         {
-            var config = JuniorTeamSelectorConfig.Instance;
-
-            var contestants = ReadContestants(args);
-            var teamCredentialses = ReadTeamsCredentials(args);
-            var teams = new List<Team>();
-            foreach (var file in new DirectoryInfo(config.OutputDirectory).GetFiles())
-            {
-                if (!(file.Name.StartsWith("team") && file.Name.EndsWith("html") && !file.Name.Contains("template")))
-                    continue;
-                var content = File.ReadAllText(file.FullName);
-                teams.Add(ExtractTeam(teamCredentialses, content, contestants));
-            }
-
-            var missingContestants = new[]
-            {
-                contestants.First(c => c.Name == "Хашимов Ойбек"),
-                contestants.First(c => c.Name == "Бахарев Артём")
-            };
-            var missingContestantIndex = 0;
-
-            var vedernikov = contestants.First(c => c.Name == "Ведерников Максим");
-            var borozdin = contestants.First(c => c.Name == "Бороздин Кирилл");
-
-            foreach (var team in teams)
-            {
-                if (team.Contestants.Count != config.TeamMembersCount)
-                    team.Contestants.Add(missingContestants[(missingContestantIndex = (missingContestantIndex + 1) % 2)]);
-
-                var toAdd = new List<Contestant>();
-                if (team.Contestants.Contains(vedernikov))
-                {
-                    team.Contestants.Remove(vedernikov);
-                    toAdd.Add(borozdin);
-                }
-                if (team.Contestants.Contains(borozdin))
-                {
-                    team.Contestants.Remove(borozdin);
-                    toAdd.Add(vedernikov);
-                }
-                foreach (var contestant in toAdd)
-                    team.Contestants.Add(contestant);
-            }
-
-            File.WriteAllText(config.TeamsInfoFileName, JsonConvert.SerializeObject(new DataRepository(teams), Formatting.Indented));
-
-            return;
-
-            /*CheckArguments(args);
+            CheckArguments(args);
 
             var config = JuniorTeamSelectorConfig.Instance;
 
@@ -84,8 +38,7 @@ namespace JuniorTeamSelector
 
             auditoriesArrangementRenderer.Render(teams);
 
-            using (var fileStream = File.Open(config.TeamsInfoFileName, FileMode.OpenOrCreate))
-                Serializer.Serialize(fileStream, new DataRepository(teams));*/
+            File.WriteAllText(config.TeamsInfoFileName, JsonConvert.SerializeObject(new DataRepository(teams)));
         }
 
 

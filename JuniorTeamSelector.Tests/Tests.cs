@@ -72,15 +72,5 @@ namespace JuniorTeamSelector.Tests
                     yield return team;
             }
         }
-
-        [Test]
-        public void Test()
-        {
-            var config = JuniorTeamSelectorConfig.Instance;
-            DataRepository dataRepository;
-            using (var fileStream = File.Open(config.TeamsInfoFileName, FileMode.Open))
-                dataRepository = ProtoBuf.Serializer.Deserialize<DataRepository>(fileStream);
-            Console.WriteLine("Huj");
-        }
     }
 }

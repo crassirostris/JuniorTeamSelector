@@ -16,6 +16,8 @@ namespace MonitorPrinter
 
         public string OutputFile { get; set; }
 
+        public string SampleCountFileName { get; set; }
+
         public static MonitorPrinterConfig Instance
         {
             get { return instance ?? (instance = LoadFrom(configFileName)); }
@@ -35,6 +37,7 @@ namespace MonitorPrinter
                 TeamsInfoFileName = @"output\teams.dat",
                 LogsDirectoryPath = @"logs",
                 OutputFile = "monitor.txt",
+                SampleCountFileName = "samples_count.txt",
                 ProblemsCount = 24
             };
             File.WriteAllText(configFileName, JsonConvert.SerializeObject(result, Formatting.Indented));

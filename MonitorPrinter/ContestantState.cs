@@ -28,20 +28,19 @@ namespace MonitorPrinter
             Problems = Enumerable.Range(0, config.ProblemsCount).Select(e => new Problem()).ToList();
         }
 
-        public void Apply(Submit submit)
+        public void Apply(Submit submit, int[] samplesCount)
         {
             var problem = Problems[submit.ProblemNumber];
-            if (!problem.Solved && !submit.CompilationError)
+            if (problem.Solved || submit.CompilationError || (!submit.Accepted && submit.TestNumber <= samplesCount[submit.ProblemNumber]))
+                return;
+            if (submit.Accepted)
             {
-                if (submit.Accepted)
-                {
-                    problem.Solved = true;
-                    ++SolvedTotal;
-                }
-                else
-                    ++problem.Failed;
-                problem.LastSubmitTime = submit.Time;
+                problem.Solved = true;
+                ++SolvedTotal;
             }
+            else
+                ++problem.Failed;
+            problem.LastSubmitTime = submit.Time;
         }
 
         public int CompareTo(ContestantState other)
@@ -52,10 +51,15 @@ namespace MonitorPrinter
             return other.submits.Count - submits.Count;
         }
 
-        public override string ToString()
+        public string ToString(int median)
         {
             var sb = new StringBuilder();
             sb.Append(Contestant.Name).Append('\t');
+            if (SolvedTotal <= median)
+            {
+                sb.Append(string.Format("0—{0}", median));
+                return sb.ToString();
+            }
             sb.Append(SolvedTotal.ToString()).Append('\t');
             sb.Append(Penalty.ToString()).Append('\t');
             foreach (var problem in Problems)
