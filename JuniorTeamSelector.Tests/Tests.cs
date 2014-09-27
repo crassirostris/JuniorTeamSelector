@@ -43,6 +43,19 @@ namespace JuniorTeamSelector.Tests
             }
 
             Assert.True(teams.Count == RoundsCount * ((contestants.Length + 2) / 3));
+
+            var config = JuniorTeamSelectorConfig.Instance;
+
+            var incompleteTeams = teams.Where(team => team.Contestants.Count != config.TeamMembersCount).ToList();
+            CollectionAssert.AreEquivalent(incompleteTeams.SelectMany(t => t.Contestants), incompleteTeams.SelectMany(t => t.Contestants).Distinct());
+        }
+
+        [Test]
+        [TestCase(10)]
+        public void GenerateTeams_MultipleTimes_Test(int roundsCount)
+        {
+            for (int i = 0; i < roundsCount; i++)
+                GenerateTeams_Test();
         }
 
         private static IEnumerable<Team> GenerateTeams(RoundArrangementGenerator<Contestant> roundArrangementGenerator, LocationGenerator locationGenerator, TeamCredentialsGenerator teamCredentialsGenerator)

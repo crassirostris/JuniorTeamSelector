@@ -5,13 +5,12 @@ using JuniorTeamSelector.Utilities;
 
 namespace JuniorTeamSelector.Generators
 {
-    //TODO: No contestant goes in non-complete team twice
-
     public class RoundArrangementGenerator<TContestant>
     {
         private readonly TContestant[] contestants;
         private readonly int teamMembersCount;
-        private readonly Dictionary<TContestant, HashSet<TContestant>> pastAdjacencies; 
+        private readonly Dictionary<TContestant, HashSet<TContestant>> pastAdjacencies;
+        private readonly HashSet<TContestant> contestantsInIncompleteTeams;
 
         private int roundNumber = 1;
 
@@ -20,6 +19,7 @@ namespace JuniorTeamSelector.Generators
             this.contestants = contestants;
             this.teamMembersCount = teamMembersCount;
             this.pastAdjacencies = contestants.ToDictionary(contestant => contestant, contestant => new HashSet<TContestant>());
+            this.contestantsInIncompleteTeams = new HashSet<TContestant>();
         }
 
         public IEnumerable<Round<TContestant>> Generate(int roundsCount)
@@ -54,6 +54,15 @@ namespace JuniorTeamSelector.Generators
                 result.Add(suggestedTeam);
                 currentContestants = RandomHelper.Shuffle(currentContestants.Where(e => !suggestedTeam.Contains(e))).ToArray();
             }
+            var incompleteTeamContestants = result.FirstOrDefault(team => team.Count != teamMembersCount);
+            if (incompleteTeamContestants != null)
+            {
+                if (incompleteTeamContestants.Any(contestantsInIncompleteTeams.Contains))
+                    return false;
+                foreach (var contestant in incompleteTeamContestants)
+                    contestantsInIncompleteTeams.Add(contestant);
+            }
+
             foreach (var members in result)
                 foreach (var member in members)
                     foreach (var otherMember in members)
